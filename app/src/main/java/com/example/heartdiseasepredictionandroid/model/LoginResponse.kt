@@ -1,13 +1,11 @@
 package com.example.heartdiseasepredictionandroid.model
 
-import android.annotation.SuppressLint
 import kotlinx.serialization.Serializable
 
-@SuppressLint("UnsafeOptInUsageError")
 @Serializable
-data class User(
+data class LoginResponse(
     val id: String,
     val username: String,
     val name: String,
-    val specialty: String? = null
+    val message: String
 )

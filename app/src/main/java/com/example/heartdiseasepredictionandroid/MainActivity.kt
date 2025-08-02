@@ -1,26 +1,32 @@
 package com.example.heartdiseasepredictionandroid
 
-import android.content.Intent
 import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
-import com.example.heartdiseasepredictionandroid.view.LoginActivity
-import com.example.heartdiseasepredictionandroid.view.RegisterActivity
-import com.google.android.material.button.MaterialButton
+import androidx.activity.ComponentActivity
+import androidx.activity.compose.setContent
+import androidx.activity.viewModels
+import androidx.compose.runtime.Composable
+import androidx.navigation.compose.rememberNavController
+import com.example.heartdiseasepredictionandroid.ui.Navigation
+import com.example.heartdiseasepredictionandroid.ui.theme.HeartDiseasePredictionAndroidTheme
+import com.example.heartdiseasepredictionandroid.viewmodel.AuthViewModel
+import com.example.heartdiseasepredictionandroid.viewmodel.PredictionViewModel
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : ComponentActivity() {
+    private val authViewModel: AuthViewModel by viewModels()
+    private val predictionViewModel: PredictionViewModel by viewModels()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
-
-        val loginButton: MaterialButton = findViewById(R.id.btn_login)
-        val registerButton: MaterialButton = findViewById(R.id.btn_register)
-
-        loginButton.setOnClickListener {
-            startActivity(Intent(this, LoginActivity::class.java))
-        }
-
-        registerButton.setOnClickListener {
-            startActivity(Intent(this, RegisterActivity::class.java))
+        setContent {
+            HeartDiseasePredictionAndroidTheme {
+                AppNavigation(authViewModel, predictionViewModel)
+            }
         }
     }
+}
+
+@Composable
+fun AppNavigation(authViewModel: AuthViewModel, predictionViewModel: PredictionViewModel) {
+    val navController = rememberNavController()
+    Navigation(navController = navController, authViewModel = authViewModel, predictionViewModel = predictionViewModel)
 }

@@ -1,30 +1,20 @@
 package com.example.heartdiseasepredictionandroid.repository
 
-import com.example.heartdiseasepredictionandroid.api.RetrofitClient
+import com.example.heartdiseasepredictionandroid.api.KtorClient
 import com.example.heartdiseasepredictionandroid.model.Prediction
 import com.example.heartdiseasepredictionandroid.model.PredictionResult
-import retrofit2.Call
+import com.example.heartdiseasepredictionandroid.model.Record
 
 class PredictionRepository {
-    fun getPredictions(userId: String): Call<List<Prediction>> {
-        return RetrofitClient.instance.getPredictions(userId)
+    suspend fun predict(prediction: Prediction): Result<PredictionResult> {
+        return KtorClient.predict(prediction)
     }
 
-    fun predict(
-        userId: String,
-        modelType: String,
-        age: Float,
-        trestbps: Float,
-        chol: Float,
-        thalach: Float,
-        oldpeak: Float,
-        ca: Int,
-        sex: Int,
-        cp: Int,
-        exang: Int,
-        slope: Int,
-        thal: Int
-    ): Call<PredictionResult> {
-        return RetrofitClient.instance.predict(userId, modelType, age, trestbps, chol, thalach, oldpeak, ca, sex, cp, exang, slope, thal)
+    suspend fun getRecords(userId: String): Result<List<Record>> {
+        return KtorClient.getRecords(userId)
+    }
+
+    suspend fun getAllRecords(): Result<List<Record>> {
+        return KtorClient.getAllRecords()
     }
 }

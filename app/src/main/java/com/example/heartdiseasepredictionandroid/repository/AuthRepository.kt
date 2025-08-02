@@ -1,15 +1,15 @@
 package com.example.heartdiseasepredictionandroid.repository
 
-import com.example.heartdiseasepredictionandroid.api.RetrofitClient
+import com.example.heartdiseasepredictionandroid.api.KtorClient
+import com.example.heartdiseasepredictionandroid.model.LoginResponse
 import com.example.heartdiseasepredictionandroid.model.User
-import retrofit2.Call
 
 class AuthRepository {
-    fun register(name: String, username: String, password: String): Call<User> {
-        return RetrofitClient.instance.register(name, username, password)
+    suspend fun register(name: String, username: String, password: String, specialty: String): Result<User> {
+        return KtorClient.register(name, username, password, specialty)
     }
 
-    fun login(username: String, password: String): Call<User> {
-        return RetrofitClient.instance.login(username, password)
+    suspend fun login(username: String, password: String): Result<LoginResponse> {
+        return KtorClient.login(username, password)
     }
 }
