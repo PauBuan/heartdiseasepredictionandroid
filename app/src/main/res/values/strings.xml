@@ -1,0 +1,52 @@
+<resources>
+    <string name="app_name">Heart Disease Prediction</string>
+    <string name="welcome">Welcome</string>
+    <string name="login">Login</string>
+    <string name="register">Register</string>
+    <string name="name">Name</string>
+    <string name="username">Username</string>
+    <string name="password">Password</string>
+    <string name="records">Prediction Records</string>
+    <string name="view_records">View Records</string>
+    <string name="diagnose">Diagnose</string>
+    <string name="select_model">Select Prediction Model</string>
+    <string name="cluster_model">Cluster</string>
+    <string name="neural_model">Neural Network</string>
+    <string name="age">Age</string>
+    <string name="resting_bp">Resting Blood Pressure</string>
+    <string name="cholesterol">Cholesterol</string>
+    <string name="max_heart_rate">Max Heart Rate</string>
+    <string name="oldpeak">Oldpeak (ST Depression)</string>
+    <string name="predict_risk">Predict Risk</string>
+    <string name="prediction_result">Prediction Result</string>
+    <string-array name="ca_options">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+    </string-array>
+    <string-array name="sex_options">
+        <item>Male</item>
+        <item>Female</item>
+    </string-array>
+    <string-array name="cp_options">
+        <item>Typical Angina</item>
+        <item>Atypical Angina</item>
+        <item>Non-Anginal Pain</item>
+        <item>Asymptomatic</item>
+    </string-array>
+    <string-array name="exang_options">
+        <item>No</item>
+        <item>Yes</item>
+    </string-array>
+    <string-array name="slope_options">
+        <item>Upsloping</item>
+        <item>Flat</item>
+        <item>Downsloping</item>
+    </string-array>
+    <string-array name="thal_options">
+        <item>Normal</item>
+        <item>Fixed Defect</item>
+        <item>Reversible Defect</item>
+    </string-array>
+</resources>
