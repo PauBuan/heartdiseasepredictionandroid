@@ -15,6 +15,7 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.example.heartdiseasepredictionandroid.viewmodel.AuthViewModel
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun RegisterScreen(navController: NavHostController, authViewModel: AuthViewModel) {
     val context = LocalContext.current
@@ -22,9 +23,20 @@ fun RegisterScreen(navController: NavHostController, authViewModel: AuthViewMode
     var username by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
     var specialty by remember { mutableStateOf("") }
+    var expanded by remember { mutableStateOf(false) } // For dropdown menu
     val user by authViewModel.user.collectAsState()
     val errorMessage by authViewModel.errorMessage.collectAsState()
     val isLoading by authViewModel.isLoading.collectAsState()
+
+    // Specialty options
+    val specialtyOptions = listOf(
+        "" to "Select Specialty",
+        "Cardiologist" to "Cardiologist",
+        "Interventional Cardiologist" to "Interventional Cardiologist",
+        "Electrophysiologist" to "Electrophysiologist",
+        "Cardiac Surgeon" to "Cardiac Surgeon",
+        "General Practitioner (GP)" to "General Practitioner (GP)"
+    )
 
     LaunchedEffect(user) {
         user?.let {
@@ -82,13 +94,40 @@ fun RegisterScreen(navController: NavHostController, authViewModel: AuthViewMode
         )
         Spacer(modifier = Modifier.height(8.dp))
 
-        OutlinedTextField(
-            value = specialty,
-            onValueChange = { specialty = it },
-            label = { Text("Specialty (optional)") },
-            modifier = Modifier.fillMaxWidth(),
-            enabled = !isLoading
-        )
+        ExposedDropdownMenuBox(
+            expanded = expanded,
+            onExpandedChange = { if (!isLoading) expanded = !expanded },
+            modifier = Modifier.fillMaxWidth()
+        ) {
+            OutlinedTextField(
+                value = specialtyOptions.find { it.first == specialty }?.second ?: "Select Specialty",
+                onValueChange = {}, // Read-only, selection via dropdown
+                label = { Text("Specialty (optional)") },
+                readOnly = true,
+                trailingIcon = {
+                    ExposedDropdownMenuDefaults.TrailingIcon(expanded = expanded)
+                },
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .menuAnchor(),
+                enabled = !isLoading
+            )
+            ExposedDropdownMenu(
+                expanded = expanded,
+                onDismissRequest = { expanded = false }
+            ) {
+                specialtyOptions.forEach { option ->
+                    DropdownMenuItem(
+                        text = { Text(option.second) },
+                        onClick = {
+                            specialty = option.first
+                            expanded = false
+                            Log.d("RegisterScreen", "Selected specialty: ${option.first}")
+                        }
+                    )
+                }
+            }
+        }
         Spacer(modifier = Modifier.height(16.dp))
 
         Button(
@@ -96,7 +135,7 @@ fun RegisterScreen(navController: NavHostController, authViewModel: AuthViewMode
                 if (name.isBlank() || username.isBlank() || password.isBlank()) {
                     Toast.makeText(context, "Please fill in all required fields", Toast.LENGTH_SHORT).show()
                 } else {
-                    Log.d("RegisterScreen", "Submitting: username=$username")
+                    Log.d("RegisterScreen", "Submitting: username=$username, specialty=$specialty")
                     authViewModel.register(name, username, password, specialty.ifBlank { null })
                 }
             },

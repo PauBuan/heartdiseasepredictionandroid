@@ -19,4 +19,5 @@ data class Prediction(
     val exang: String,
     val slope: String,
     val thal: String
+
 )
